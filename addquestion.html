@@ -1,0 +1,26 @@
+ <div class="row backcol text-center" id="logo">
+        <div class="small-2 columns" ng-click="goback()">
+            <i class="fi-arrow-left"></i>
+        </div>
+        <div class="small-8 columns">
+            <span>Add Question</span>
+        </div>
+        <div class="small-2 columns">
+            
+        </div>
+</div>
+
+<div class="row text-center paddingtop">
+    <form>
+        <label>Header</label>
+        <input type="text" ng-model="question.qHeader" class="text-center"/>
+        <label>Question</label>
+        <textarea rows="10" ng-model="question.qText" class="text-center height10"></textarea>
+        
+        <div ng-model="alerts" class="alert-box alert {{ alerts.newClass }}">{{ alerts.message }} </div>    
+        <div class="navhome" ng-click="addquestion(question)">Add question</div>
+    </form>
+
+</div>
+ 
+ 

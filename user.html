@@ -1,0 +1,37 @@
+ <div class="row backcol text-center" id="logo">
+        <div class="small-2 columns" ng-click="goback()">
+            <i class="fi-arrow-left"></i>
+        </div>
+        <div class="small-8 columns">
+            <span>User Profile </span>
+        </div>
+        <div class="small-2 columns">
+            
+        </div>
+</div>
+
+<div class="row text-center">
+    <h2>Profile</h2>
+    
+    <label>Username</label>
+    <div class="panel">
+        {{ user.attributes.username }}
+    </div>
+    
+    <label>Fullname</label>
+    <div class="panel">
+        {{ user.attributes.name }}
+    </div>
+    
+    <label>Email</label>
+    <div class="panel">
+        {{ user.attributes.email }}
+    </div>
+    
+    <label>Change Password</label>
+    <input type="password" placeholder="Please enter new password" class="text-center" ng-model="newpassword" required/>
+    <div ng-model="alerts" class="alert-box alert {{ alerts.newClass }}">{{ alerts.message }} </div>    
+    <div class="panel" ng-click="changepassword()">
+        Do it!
+    </div>
+</div>
