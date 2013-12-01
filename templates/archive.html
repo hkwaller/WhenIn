@@ -1,0 +1,68 @@
+
+
+
+
+<side-menus>
+  <!-- Center content -->
+    <pane side-menu-content>
+        <div class="bar bar-header bar-positive">
+            <button class="button button-clear" ng-click="toggleMenu()">
+                <i class="icon ion-navicon"></i>
+            </button>
+            <h1 class="title">Archive</h1>
+            
+        </div>
+        
+        <content has-header="true">
+            <div ng-repeat="question in allQuestions">
+                <div class="card">
+                    <div class="item item-divider">
+                        {{ question.attributes.header }}
+                    </div>
+                    <div class="item item-text-wrap">
+                        {{ question.attributes.question }}
+                    </div>
+                </div>
+            </div>
+        </content>      
+    </pane>
+
+  <!-- Left menu -->
+  <side-menu side="left">
+      <div class="bar bar-header bar-positive">
+      </div>
+      <content
+        has-header="true"
+        scroll="true">
+        <div class="list" ng-controller="MenuCtrl">
+            <a class="item item-icon-left" ng-click="goHome()">
+                <i class=" icon-small ion-home"> Go home</i>
+            </a>
+                        
+            <a class="item item-icon-left" ng-click="addQuestion()">
+                <i class="icon-small ion-compose"> Write question</i>
+            </a>  
+            
+            <a class="item item-icon-left" ng-click="showArchive()">
+                <i class="icon-small ion-archive"> See other questions</i>
+            </a>
+            
+            <a class="item item-icon-left" ng-click="showProfile()">
+                <i class="icon-small ion-person"> Show Profile</i>
+            </a>
+            
+            <a class="item item-icon-left" ng-click="showMap()">
+                <i class="icon-small ion-map"> Show Map</i>
+                
+            </a>
+                     
+            <a class=" item item-icon-left" ng-click="logout()">
+                <i class="icon-small ion-log-out"> Log out</i>
+            </a>
+            
+        </div>
+          
+          
+      </content>
+  </side-menu>
+</side-menus>

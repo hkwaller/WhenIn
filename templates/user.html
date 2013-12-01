@@ -1,0 +1,80 @@
+
+
+
+
+<side-menus>
+  <!-- Center content -->
+    <pane side-menu-content>
+        <div class="bar bar-header bar-positive">
+            <button class="button button-clear" ng-click="toggleMenu()">
+                <i class="icon ion-navicon"></i>
+            </button>
+            <h1 class="title">WhenIn</h1>
+
+        </div>
+        
+        <content has-header="true" class="text-center">
+            <h2>Profile</h2>
+    
+            <label>Username</label>
+            <div class="panel">
+                {{ user.attributes.username }}
+            </div>
+            
+            <label>Fullname</label>
+            <div class="panel">
+                {{ user.attributes.name }}
+            </div>
+            
+            <label>Email</label>
+            <div class="panel">
+                {{ user.attributes.email }}
+            </div>
+            
+            <label>Change Password</label>
+            <input type="password" placeholder="Please enter new password" class="text-center" ng-model="newpassword" required/>
+            <div ng-model="alerts" class="alert-box alert {{ alerts.newClass }}">{{ alerts.message }} </div>    
+            <div class="panel" ng-click="changepassword()">
+                Do it!
+            </div>
+        </content>      
+    </pane>
+
+  <!-- Left menu -->
+  <side-menu side="left">
+      <div class="bar bar-header bar-positive">
+      </div>
+      <content
+        has-header="true"
+        scroll="true">
+        <div class="list" ng-controller="MenuCtrl">
+           <a class="item item-icon-left" ng-click="goHome()">
+                <i class=" icon-small ion-home"> Go home</i>
+            </a>
+            
+            <a class="item item-icon-left" ng-click="addQuestion()">
+                <i class="icon-small ion-compose"> Write question</i>
+            </a>  
+            
+            <a class="item item-icon-left" ng-click="showArchive()">
+                <i class="icon-small ion-archive"> See other questions</i>
+            </a>
+            
+            <a class="item item-icon-left" ng-click="showProfile()">
+                <i class="icon-small ion-person"> Show Profile</i>
+            </a>
+            
+            <a class="item item-icon-left" ng-click="showMap()">
+                <i class="icon-small ion-map"> Show Map</i>
+                
+            </a>
+                     
+            <a class=" item item-icon-left" ng-click="logout()">
+                <i class="icon-small ion-log-out"> Log out</i>
+            </a>
+        </div>
+          
+          
+      </content>
+  </side-menu>
+</side-menus>

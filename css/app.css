@@ -1,0 +1,24 @@
+/* Login */
+
+
+.loginpadding {
+    padding-top: 5em;
+}
+.errorhandling {
+    margin-top: 1em;
+    padding: 0.3em;
+    color: white;
+}
+
+.errorHandlingResting {
+    background: white;
+}
+
+.errorhandlingActive {
+    background: red;
+}
+
+.map {
+    height: 200px;
+    display: block;
+}
