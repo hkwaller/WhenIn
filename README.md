@@ -1,6 +1,8 @@
-
-WhenIn prototype for Grensesnittdesign
+WhenIn
 ====
+
+Prototype for Grensesnittdesign
+
 
 Om
 
