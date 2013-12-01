@@ -5,8 +5,8 @@ Prototype for Grensesnittdesign
 
 
 Om
-
 ====
+
 En simpel prototype for å visualisere prosjektet vi har gjennomført i Grensesnittdesign under høsten 2013.
 
 Appen er byggd ved hjelp av AngularJS og noen hjelpebiblioteker.
