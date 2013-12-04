@@ -1,4 +1,4 @@
-var whenIn = angular.module("WhenIn", ['ionic', 'ngRoute', 'ngAnimate']);
+var whenIn = angular.module("WhenIn", ['ionic', 'ngRoute', 'ngAnimate', 'google-maps', 'geolocation']);
 
 whenIn.config(function($routeProvider, $locationProvider) {
     $routeProvider.when('/home', {
@@ -31,6 +31,11 @@ whenIn.config(function($routeProvider, $locationProvider) {
         controller: 'AddCtrl'
     });
     
+    $routeProvider.when('/map', {
+        templateUrl: 'templates/map.html',
+        controller: 'MapCtrl'
+    });
+    
     $routeProvider.otherwise({
         redirectTo: '/home'
     });
@@ -40,6 +45,7 @@ whenIn.controller('LoginCtrl', function($scope, $location, $timeout) {
     $scope.headerTitle = "WhenIn";
     
     $scope.credentials = { username: "", password: ""};
+    
     $scope.gotoregister = function() {
         $location.path('/register');   
     }
@@ -91,6 +97,10 @@ whenIn.controller('MenuCtrl', function($scope, $location) {
         $location.path('/home');
     };
     
+    $scope.showMap = function() {
+        $location.path('/map');
+    };
+    
     $scope.logout = function() {
         Parse.User.logOut();
         $location.path('/login');
@@ -125,14 +135,68 @@ whenIn.controller('HomeCtrl', function($scope, $location, $timeout, Modal, $http
     question.set("question", form.questionText);
 
     question.save(null, {
-      success: function() {
-        $timeout(function() {
-            console.log("Question added.");
-        }, 100);
-      }
-    });
-  };  
-      
+        success: function() {
+            $timeout(function() {
+                console.log("Question added.");
+            }, 100);
+          }
+        });
+    };  
+    
+    $scope.center = { latitude: 59.92960173988886, 
+                    longitude: 10.731727894442757, };
+    
+    $scope.markClick = true;
+    $scope.zoom = 13;
+    $scope.fit = true;
+    
+    $scope.geolocationAvailable = navigator.geolocation ? true : false;
+    
+    $scope.markers = [];
+                
+    $scope.markerLat = null;
+    $scope.markerLng = null;
+    
+    $scope.addmarker = function () {
+        $scope.markers.push({
+            latitude: parseFloat($scope.markerLat),
+            longitude: parseFloat($scope.markerLng)
+        });
+        
+        $scope.markerLat = null;
+        $scope.markerLng = null;
+    };
+    
+    (function() {  
+        
+        if ($scope.geolocationAvailable) {
+            
+            navigator.geolocation.getCurrentPosition(function (position) {
+                $scope.center = {
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude,
+                };
+               $scope.markers.push({latitude: position.coords.latitude,
+                    longitude: position.coords.longitude});
+                
+                $scope.latitude = $scope.markers[0].latitude;
+                $scope.longitude = $scope.markers[0].longitude;
+
+                $scope.urlinfo = "http://maps.googleapis.com/maps/api/geocode/json?latlng=" + $scope.latitude + "," + $scope.longitude + "&sensor=true";
+                
+                $http.get($scope.urlinfo).then(function(res){
+                
+                    $scope.findmeh = res.data;
+                    console.log($scope.findmeh.results[2].address_components[0].long_name);
+                  
+                });
+                $scope.$apply();
+            }, function () {
+                
+            });
+        }	
+    })();
+ 
 });
 
 whenIn.controller('RegCtrl', function($scope, $location, $timeout) {
@@ -229,3 +293,62 @@ whenIn.controller('AddCtrl', function($scope, $location, $timeout) {
     };    
 });
 
+whenIn.controller('MapCtrl', function($scope, $http) {
+    $scope.toggleMenu = function() {
+          $scope.sideMenuController.toggleLeft();
+           
+    };
+    $scope.center = { latitude: 59.92960173988886, 
+                    longitude: 10.731727894442757, };
+    
+    $scope.markClick = true;
+    $scope.zoom = 16;
+    $scope.fit = true;
+    
+    $scope.geolocationAvailable = navigator.geolocation ? true : false;
+    
+    $scope.markers = [];
+                
+    $scope.markerLat = null;
+    $scope.markerLng = null;
+    
+    $scope.addmarker = function () {
+        $scope.markers.push({
+            latitude: parseFloat($scope.markerLat),
+            longitude: parseFloat($scope.markerLng)
+        });
+        
+        $scope.markerLat = null;
+        $scope.markerLng = null;
+    };
+    
+    (function() {  
+        
+        if ($scope.geolocationAvailable) {
+            
+            navigator.geolocation.getCurrentPosition(function (position) {
+                $scope.center = {
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude,
+                };
+               $scope.markers.push({latitude: position.coords.latitude,
+                    longitude: position.coords.longitude});
+                
+                $scope.latitude = $scope.markers[0].latitude;
+                $scope.longitude = $scope.markers[0].longitude;
+
+                $scope.urlinfo = "http://maps.googleapis.com/maps/api/geocode/json?latlng=" + $scope.latitude + "," + $scope.longitude + "&sensor=true";
+                
+                $http.get($scope.urlinfo).then(function(res){
+                
+                    $scope.findmeh = res.data;
+                    console.log($scope.findmeh.results[2].address_components[0].long_name);
+                  
+                });
+                $scope.$apply();
+            }, function () {
+                
+            });
+        }	
+    })();
+});
