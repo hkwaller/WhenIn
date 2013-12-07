@@ -2662,7 +2662,7 @@ a.subdued {
   box-sizing: border-box;
   padding: 5px;
   width: 100%;
-  height: 44px;
+  height: 60px;
   border-width: 0;
   border-style: solid;
   border-top: 1px solid transparent;
@@ -2762,7 +2762,7 @@ a.subdued {
     text-overflow: ellipsis;
     white-space: nowrap;
     font-size: 18px;
-    line-height: 44px; }
+    line-height: 60px; }
     .bar .title.title-left {
       text-align: left; }
   .bar .title a {
@@ -2779,7 +2779,7 @@ a.subdued {
       padding-left: 2px;
       padding-right: 2px;
       font-size: 24px;
-      line-height: 30px; }
+      line-height: 43px; }
   .bar .button-bar > .button, .bar .buttons > .button {
     min-height: 31px;
     height: 32px;
@@ -2999,7 +2999,7 @@ a.subdued {
   padding: 0; }
 
 .bar-subheader {
-  top: 44px;
+  top: 60px;
   display: block; }
 
 .bar-subfooter {

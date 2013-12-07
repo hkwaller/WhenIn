@@ -37,7 +37,7 @@ whenIn.config(function($routeProvider, $locationProvider) {
     });
     
     $routeProvider.otherwise({
-        redirectTo: '/home'
+        redirectTo: '/login'
     });
 });
 
@@ -51,11 +51,14 @@ whenIn.controller('LoginCtrl', function($scope, $location, $timeout) {
     }
 
     $scope.errorClass = "errorHandlingResting";
+    $scope.errormessage = "temp";
+    
     
     $scope.login = function() {
         
         if($scope.credentials.username === "" || $scope.credentials.password === "") {
           $scope.errorClass = "errorhandlingActive";
+          $scope.errormessage = "Both fields are required";
         } else {
              Parse.User.logIn($scope.credentials.username, $scope.credentials.password, {
                 success: function(user) {
@@ -68,8 +71,8 @@ whenIn.controller('LoginCtrl', function($scope, $location, $timeout) {
                 },
                 error: function(user, error) {
                     $timeout(function(){
-                        $scope.alerts.newClass = 'visible';
-                        $scope.alerts.message = 'Wrong username or password.';  
+                        $scope.errorClass = 'errorhandlingActive';
+                        $scope.errormessage = 'Wrong username or password.';  
                     }, 100);
                 }
                 
@@ -200,6 +203,38 @@ whenIn.controller('HomeCtrl', function($scope, $location, $timeout, Modal, $http
 });
 
 whenIn.controller('RegCtrl', function($scope, $location, $timeout) {
+    $scope.gotologin = function() {
+      $location.path('/login');
+    };
+    
+    $scope.signup = function(register) {
+        var user = new Parse.User();
+        user.set("username", register.username);
+        user.set("name", register.name);
+        user.set("email", register.mail);
+        user.set("password", register.password);
+    
+        user.signUp(null, {
+              success: function(user) {
+                // Let admin know user is added
+                  
+                  $timeout(function(){
+                      $location.path('/home');
+                      (function() {
+                      
+                      
+                      } ());
+                      
+                  }, 500);
+              },
+              error: function(user, error) {
+                // Error handling
+                  
+              }
+        });  
+    };
+    
+    
     
 });
 
@@ -239,24 +274,31 @@ whenIn.controller('UserCtrl', function($scope, $location, $timeout) {
     
     $scope.user = Parse.User.current();
     
+    $scope.edit = true;
+
     $scope.goback = function() {
         $location.path('/home');
     
     };
     
-    $scope.changepassword = function() {
-        console.log($scope.newpassword);
+    $scope.editProfile = function() {
+        $scope.edit = $scope.edit === false ? true: false;
+    };
+    
+    $scope.saveProfile = function(profile) {
 
         var query = new Parse.Query(Parse.User);
         query.equalTo("username", $scope.user.attributes.username);  
         query.find({
             success: function(results) {
-                results[0].set("password", $scope.newpassword);
+                results[0].set("password", $scope.profile.password);
+                results[0].set("username", $scope.profile.username);
+                results[0].set("email", $scope.profile.email);
+                results[0].set("name", $scope.profile.name);
                 results[0].save(null, {
                   success: function(results) {
                     $timeout(function() {
-                        $scope.alerts.message = 'Password changed';
-                        $scope.alerts.newClass = 'passchange';
+                        $scope.confirmedProfile = "confirmedProfile";
                     }, 100);
             
                 }
@@ -266,7 +308,6 @@ whenIn.controller('UserCtrl', function($scope, $location, $timeout) {
         });
     
     };
-    console.log($scope.user.attributes.name);
 });
 
 whenIn.controller('AddCtrl', function($scope, $location, $timeout) {
@@ -274,18 +315,23 @@ whenIn.controller('AddCtrl', function($scope, $location, $timeout) {
           $scope.sideMenuController.toggleLeft();
     };
     
+    $scope.currentUser = Parse.User.current();
+    
     $scope.addquestion = function(q) {
         var Question = Parse.Object.extend("Questions");
         var question = new Question();
         
         question.set("header", q.questionHeader);
         question.set("question", q.questionText);
-        
+        question.set("name", $scope.currentUser.attributes.name);
+        question.set("city", "Oslo");
+
         
         question.save(null, {
           success: function() {
             $timeout(function() {
                 console.log("question added");
+                $location.path('/archive');
             }, 100);
            
           }
@@ -352,3 +398,17 @@ whenIn.controller('MapCtrl', function($scope, $http) {
         }	
     })();
 });
+
+whenIn.directive('ngEnter', function() {
+        return function(scope, element, attrs) {
+            element.bind("keydown keypress", function(event) {
+                if(event.which === 13) {
+                    scope.$apply(function(){
+                        scope.$eval(attrs.ngEnter);
+                    });
+
+                    event.preventDefault();
+                }
+            });
+        };
+    });

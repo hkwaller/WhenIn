@@ -6,37 +6,48 @@
   <!-- Center content -->
     <pane side-menu-content>
         <div class="bar bar-header bar-positive">
-            <button class="button button-clear" ng-click="toggleMenu()">
-                <i class="icon ion-navicon"></i>
+             <button class="button specialButton button-clear" ng-click="gotologin()">
+                <i class="icon ion-chevron-left"></i>
             </button>
-            <h1 class="title">WhenIn</h1>
-            <button class="button button-clear" ng-click="openModal()">
-                <i class="icon ion-compose"></i>
-            </button>
+            <h1 class="title">Registration</h1>
+           
             
         </div>
         
 
         <content has-header="true">
             
-        <h2>Registration</h2>
-        
-        <form ng-model="signupform">
-            <label for="name">Username:</label>
-            <input type="text" autocapitalize="off" class="text-center" placeholder="mark_123" ng-model="register.username" />
+            <div class="list list-inset">
+                <label class="item item-input">
+                <input type="text" placeholder="Username"  ng-model="register.username">
+              </label>
+              <label class="item item-input">
+                <input type="text" placeholder="Full Name"  ng-model="register.name">
+              </label>
+                <label class="item item-input">
+                <input type="email" placeholder="Email" ng-model="register.mail">
+              </label>
+                <label class="item item-input">
+                <input type="password" placeholder="Password" ng-model="register.password">
+              </label>   
+            </div>
+          <ul class="list">
+              <li class="item item-toggle">
+                 Godkjenn vilkår
+                 <label class="toggle">
+                   <input type="checkbox">
+                   <div class="track">
+                     <div class="handle"></div>
+                   </div>
+                 </label>
+              </li>
+        </ul>
+            <button class="button button-block button-positive" ng-click="signup(register)">
+              Register!
+            </button>
             
-            <label for="name">Real name:</label>
-            <input type="text" autocapitalize="off" class="text-center" placeholder="Marky Mark" ng-model="register.name" />
             
             
-            <label for="email">Email:</label>
-            <input type="email" class="text-center" placeholder="mark.wahlberg@mw.com" ng-model="register.mail" />
-            
-            <label for="password">Password:</label>
-            <input type="password" class="text-center" ng-model="register.password" />
-                        
-            <button class="custombutton" ng-click="signup(register)">Register</button>
-        </form>
             
             
         </content>      

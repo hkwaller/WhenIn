@@ -24,12 +24,12 @@
             <input type="password" placeholder="Password" class="text-center" ng-model="credentials.password">
         </label>
         
-        <div class="text-center errorhandling {{ errorClass }}" ng-model="error">Both fiels are required. </div>
+        <div class="text-center errorhandling {{ errorClass }}" ng-model="error">{{ errormessage }}</div>
         <button class="button button-block button-outline button-positive" ng-click="login()">
           Login
         </button>
         
-         <div ng-click="gotoregister()" class="text-center">Don't have an account yet?</span>   
+         <div ng-click="gotoregister()" class="text-center paddingtop">Don't have an account yet?</span>   
     </div>
     
 </content>

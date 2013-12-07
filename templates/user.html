@@ -6,37 +6,48 @@
   <!-- Center content -->
     <pane side-menu-content>
         <div class="bar bar-header bar-positive">
-            <button class="button button-clear" ng-click="toggleMenu()">
+            <button class="button specialButton button-clear" ng-click="toggleMenu()">
                 <i class="icon ion-navicon"></i>
             </button>
-            <h1 class="title">WhenIn</h1>
-
+            <h1 class="title">Profile</h1>
+            <button class="button specialButton button-clear" ng-click="editProfile()">
+                <i class="icon ion-wrench"></i>
+            </button>
         </div>
         
         <content has-header="true" class="text-center">
-            <h2>Profile</h2>
-    
-            <label>Username</label>
-            <div class="panel">
-                {{ user.attributes.username }}
+              <div class="list list-inset" ng-show="edit">
+                <label class="item item-input">
+                    <strong style="margin-right: 15px">Username</strong><input type="text" placeholder="{{ user.attributes.username }}" readonly>
+                </label>
+                <label class="item item-input">
+                    <strong style="margin-right: 15px">Full name</strong><input type="text" placeholder="{{ user.attributes.name }}" readonly>
+                </label>
+                <label class="item item-input">
+                    <strong style="margin-right: 15px">Email</strong><input type="text" placeholder="{{ user.attributes.email }}"readonly>
+                </label>         
             </div>
             
-            <label>Fullname</label>
-            <div class="panel">
-                {{ user.attributes.name }}
+            <div class="list list-inset" ng-show="!edit">
+                <label class="item item-input">
+                    <input type="text" placeholder="{{ user.attributes.username }}" ng-model="profile.username">
+                </label>
+                <label class="item item-input">
+                    <input type="text" placeholder="{{ user.attributes.name }}" ng-model="profile.name">
+                </label>
+                <label class="item item-input">
+                    <input type="text" placeholder="{{ user.attributes.email }}" ng-model="profile.email">
+                </label>
+                <label class="item item-input">
+                    <input type="password" placeholder="Password" ng-model="profile.password">
+                </label>  
+                <div class="text-center confirmed {{ confirmedProfile }}" ng-model="saved">Profile saved</div>
+
+                <button class="button button-block button-positive" ng-click="saveProfile(profile)">
+                  Save profile
+                </button>           
             </div>
-            
-            <label>Email</label>
-            <div class="panel">
-                {{ user.attributes.email }}
-            </div>
-            
-            <label>Change Password</label>
-            <input type="password" placeholder="Please enter new password" class="text-center" ng-model="newpassword" required/>
-            <div ng-model="alerts" class="alert-box alert {{ alerts.newClass }}">{{ alerts.message }} </div>    
-            <div class="panel" ng-click="changepassword()">
-                Do it!
-            </div>
+
         </content>      
     </pane>
 

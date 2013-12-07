@@ -6,7 +6,7 @@
   <!-- Center content -->
     <pane side-menu-content>
         <div class="bar bar-header bar-positive">
-            <button class="button button-clear" ng-click="toggleMenu()">
+            <button class="button specialButton button-clear" ng-click="toggleMenu()">
                 <i class="icon ion-navicon"></i>
             </button>
             <h1 class="title">Archive</h1>
@@ -15,14 +15,19 @@
         
         <content has-header="true">
             <div ng-repeat="question in allQuestions">
-                <div class="card">
-                    <div class="item item-divider">
-                        {{ question.attributes.header }}
-                    </div>
-                    <div class="item item-text-wrap">
-                        {{ question.attributes.question }}
-                    </div>
-                </div>
+                <div class="list card">
+                    <div class="item">
+                    <h2>{{ question.attributes.header }}</h2>
+                        <p>Asked by {{ question.attributes.name }}</p>
+                        <p>In {{ question.attributes.city }}</p>
+                      </div>
+                    
+                      <div class="item item-body">
+                        <p>
+                            {{ question.attributes.question }}
+                        </p>
+                      </div>
+                </div>       
             </div>
         </content>      
     </pane>
@@ -59,10 +64,7 @@
             <a class=" item item-icon-left" ng-click="logout()">
                 <i class="icon-small ion-log-out"> Log out</i>
             </a>
-            
         </div>
-          
-          
       </content>
   </side-menu>
 </side-menus>
