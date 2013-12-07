@@ -35,7 +35,7 @@ whenIn.config(function($routeProvider, $locationProvider) {
         templateUrl: 'templates/map.html',
         controller: 'MapCtrl'
     });
-    
+
     $routeProvider.otherwise({
         redirectTo: '/login'
     });
@@ -145,6 +145,31 @@ whenIn.controller('HomeCtrl', function($scope, $location, $timeout, Modal, $http
           }
         });
     };  
+    
+    $scope.questions = [];
+    
+   var qQuery = Parse.Object.extend("Questions");
+    
+    var query = new Parse.Query(qQuery);
+    query.descending("createdAt");
+    query.limit(3);
+
+    var questions = [];
+    
+     query.find({
+      success: function(results) {
+        for (var i = 0; i < results.length; i++) {
+            questions.push(results[i]);   
+        };
+      }
+    }); 
+    
+    $timeout(function(){
+        $scope.questions = questions;
+    }, 1000);
+    
+    
+    
     
     $scope.center = { latitude: 59.92960173988886, 
                     longitude: 10.731727894442757, };

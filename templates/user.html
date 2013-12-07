@@ -17,15 +17,18 @@
         
         <content has-header="true" class="text-center">
               <div class="list list-inset" ng-show="edit">
-                <label class="item item-input">
-                    <strong style="margin-right: 15px">Username</strong><input type="text" placeholder="{{ user.attributes.username }}" readonly>
+                  <label class="item item-input">
+                    <input type="text" placeholder="Username: {{ user.attributes.username }}">
                 </label>
                 <label class="item item-input">
-                    <strong style="margin-right: 15px">Full name</strong><input type="text" placeholder="{{ user.attributes.name }}" readonly>
+                    <input type="text" placeholder="Name: {{ user.attributes.name }}">
                 </label>
                 <label class="item item-input">
-                    <strong style="margin-right: 15px">Email</strong><input type="text" placeholder="{{ user.attributes.email }}"readonly>
-                </label>         
+                    <input type="text" placeholder="Email: {{ user.attributes.email }}">
+                </label>
+                <label class="item item-input">
+                    <input type="password" placeholder="Password: sunshine?">
+                </label>      
             </div>
             
             <div class="list list-inset" ng-show="!edit">

@@ -1,7 +1,6 @@
 
 
 
-
 <side-menus>
   <!-- Center content -->
     <pane side-menu-content>
@@ -19,46 +18,39 @@
 
         <content has-header="true">
             <google-map class="map" center="center" draggable="false" zoom="zoom" markers="markers" mark-click="true" style="height: 200px"></google-map>
-            <div class="list card">
-            
-              <div class="item item-avatar">
+            <div class="item item-avatar">
                    
 
                 <img src="http://i.imgur.com/8Nr6uCe.png">
                 <h2>Hannes Waller</h2>
                 <p>01 December, 2013</p>
-                <p>near: {{ findmeh.results[0].formatted_address }}</p>
               </div>
             
               <div class="item item-body">
                 
                 <p>
-                  Welcome to WhenIn. The supermega awesome travelhelper that connects you with locals to make sure you have the best experience possible.
-                </p>
-                <p>
-                  <a href="#" class="subdued">187 Like</a>
-                  <a href="#" class="subdued">59 Comments</a>
+                  Welcome to WhenIn. The amazing travel helper that connects you with locals to make sure you have the best experience possible.
                 </p>
               </div>
+ 
             
-              <div class="item tabs tabs-secondary tabs-icon-left">
-                <a class="tab-item" href="#">
-                  <i class="icon ion-thumbsup"></i>
-                  Like
-                </a>
-                <a class="tab-item" href="#">
-                  <i class="icon ion-chatbox"></i>
-                  Comment
-                </a>
-                <a class="tab-item" href="#">
-                  <i class="icon ion-share"></i>
-                  Share
-                </a>
-              </div>
             
+            Three latest questions in Oslo
+            <div ng-repeat="q in questions">
+                <div class="list card">
+                    <div class="item">
+                    <h2>{{ q.attributes.header }}</h2>
+                        <p>Asked by {{ q.attributes.name }}</p>
+                        <p>In {{ q.attributes.city }}</p>
+                      </div>
+                    
+                      <div class="item item-body">
+                        <p>
+                            {{ q.attributes.question }}
+                        </p>
+                      </div>
+                </div>   
             </div>
-            
-            
         </content>      
     </pane>
 
