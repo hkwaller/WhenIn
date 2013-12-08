@@ -39,9 +39,19 @@ whenIn.config(function($routeProvider, $locationProvider) {
     $routeProvider.otherwise({
         redirectTo: '/login'
     });
+    
 });
 
-whenIn.controller('LoginCtrl', function($scope, $location, $timeout) {
+/*
+||  Login Controller
+*/
+
+
+whenIn.controller('LoginCtrl', function($scope, $location, $timeout, $route) {
+    $scope.reloadPage = function() {
+        $route.reload();
+    };
+    
     $scope.headerTitle = "WhenIn";
     
     $scope.credentials = { username: "", password: ""};
@@ -53,6 +63,9 @@ whenIn.controller('LoginCtrl', function($scope, $location, $timeout) {
     $scope.errorClass = "errorHandlingResting";
     $scope.errormessage = "temp";
     
+    
+    // Loginfunksjon som sjekker bruker mot input og mot Parse og gir 
+    // tilbakemelding hvis det blir problemer, eller videresender hvis funksjonen er vellykket
     
     $scope.login = function() {
         
@@ -82,8 +95,15 @@ whenIn.controller('LoginCtrl', function($scope, $location, $timeout) {
 
 });
 
+/*
+||  Menu Controller
+*/
+
 whenIn.controller('MenuCtrl', function($scope, $location) {
-       
+    
+    
+    // Setter opp det ulike viewsen
+    
     $scope.showProfile = function() {
         $location.path('/user');
     };  
@@ -112,15 +132,27 @@ whenIn.controller('MenuCtrl', function($scope, $location) {
 
 });
 
-whenIn.controller('HomeCtrl', function($scope, $location, $timeout, Modal, $http) {
+/*
+||  Home Controller
+*/
+
+whenIn.controller('HomeCtrl', function($scope, $location, $timeout, Modal, $http, $route) {
  
     $scope.toggleMenu = function() {
           $scope.sideMenuController.toggleLeft();
     };
     
+    // Reload funksjon for refreshern
+     $scope.reloadPage = function() {
+        $timeout(function(){
+            $route.reload();
+        }, 500);
+         
+    };
+    
     Modal.fromTemplateUrl('modal.html', function(modal) {
     $scope.modal = modal;
-  }, {
+   }, {
     scope: $scope,
     animation: 'slide-in-up'
   });
@@ -130,21 +162,31 @@ whenIn.controller('HomeCtrl', function($scope, $location, $timeout, Modal, $http
   };
   $scope.closeModal = function(form) {
     $scope.modal.hide();
+    $scope.currentUser = Parse.User.current();
+
     
+    // Legger til nytt spørsmål og refresher siden hvis det lykkes
+      
     var Question = Parse.Object.extend("Questions");
     var question = new Question();
     
     question.set("header", form.questionHeader);
     question.set("question", form.questionText);
+    question.set("name", $scope.currentUser.attributes.name);
+    question.set("city", "Oslo");
 
     question.save(null, {
         success: function() {
             $timeout(function() {
                 console.log("Question added.");
+                $route.reload();
             }, 100);
           }
         });
     };  
+    
+    
+    // Henter ut spørsmålen fra Parse
     
     $scope.questions = [];
     
@@ -167,9 +209,10 @@ whenIn.controller('HomeCtrl', function($scope, $location, $timeout, Modal, $http
     $timeout(function(){
         $scope.questions = questions;
     }, 1000);
+
     
     
-    
+    // Initierer kart
     
     $scope.center = { latitude: 59.92960173988886, 
                     longitude: 10.731727894442757, };
@@ -212,6 +255,8 @@ whenIn.controller('HomeCtrl', function($scope, $location, $timeout, Modal, $http
 
                 $scope.urlinfo = "http://maps.googleapis.com/maps/api/geocode/json?latlng=" + $scope.latitude + "," + $scope.longitude + "&sensor=true";
                 
+                
+                // Lagrer info om nåværende punkt
                 $http.get($scope.urlinfo).then(function(res){
                 
                     $scope.findmeh = res.data;
@@ -227,11 +272,16 @@ whenIn.controller('HomeCtrl', function($scope, $location, $timeout, Modal, $http
  
 });
 
+/*
+||  Register Controller
+*/
+
 whenIn.controller('RegCtrl', function($scope, $location, $timeout) {
     $scope.gotologin = function() {
       $location.path('/login');
     };
     
+    // Signupfunksjon for tillegging av bruker
     $scope.signup = function(register) {
         var user = new Parse.User();
         user.set("username", register.username);
@@ -242,7 +292,7 @@ whenIn.controller('RegCtrl', function($scope, $location, $timeout) {
         user.signUp(null, {
               success: function(user) {
                 // Let admin know user is added
-                  
+                  $scope.currentUser = Parse.User.current();
                   $timeout(function(){
                       $location.path('/home');
                       (function() {
@@ -258,16 +308,19 @@ whenIn.controller('RegCtrl', function($scope, $location, $timeout) {
               }
         });  
     };
-    
-    
-    
 });
+
+/*
+||  Arkiv Controller
+*/
 
 whenIn.controller('ArchiveCtrl', function($scope, $location, $timeout) {
         
     $scope.toggleMenu = function() {
           $scope.sideMenuController.toggleLeft();
     };
+    
+    // Henter ut spørsmål, igjen :/ 
     
     var qQuery = Parse.Object.extend("Questions");
     
@@ -291,6 +344,10 @@ whenIn.controller('ArchiveCtrl', function($scope, $location, $timeout) {
 
 });
 
+/*
+||  Bruker Controller
+*/
+
 whenIn.controller('UserCtrl', function($scope, $location, $timeout) {
         
     $scope.toggleMenu = function() {
@@ -299,6 +356,7 @@ whenIn.controller('UserCtrl', function($scope, $location, $timeout) {
     
     $scope.user = Parse.User.current();
     
+    // Setter edit for toggle funksjonen
     $scope.edit = true;
 
     $scope.goback = function() {
@@ -310,6 +368,8 @@ whenIn.controller('UserCtrl', function($scope, $location, $timeout) {
         $scope.edit = $scope.edit === false ? true: false;
     };
     
+    
+    // Sparer profil til Parse
     $scope.saveProfile = function(profile) {
 
         var query = new Parse.Query(Parse.User);
@@ -335,12 +395,19 @@ whenIn.controller('UserCtrl', function($scope, $location, $timeout) {
     };
 });
 
+
+/*
+||  Legg til spørsmål Controller
+*/
+
 whenIn.controller('AddCtrl', function($scope, $location, $timeout) {
   $scope.toggleMenu = function() {
           $scope.sideMenuController.toggleLeft();
     };
     
     $scope.currentUser = Parse.User.current();
+    
+    // Funksjon for å legge til spørsmål
     
     $scope.addquestion = function(q) {
         var Question = Parse.Object.extend("Questions");
@@ -363,7 +430,9 @@ whenIn.controller('AddCtrl', function($scope, $location, $timeout) {
         });
     };    
 });
-
+/*
+||  Map Controller
+*/
 whenIn.controller('MapCtrl', function($scope, $http) {
     $scope.toggleMenu = function() {
           $scope.sideMenuController.toggleLeft();
@@ -424,6 +493,8 @@ whenIn.controller('MapCtrl', function($scope, $http) {
     })();
 });
 
+
+// Eget direktiv for å få appen til å kjenne igjen "enter"-klikk
 whenIn.directive('ngEnter', function() {
         return function(scope, element, attrs) {
             element.bind("keydown keypress", function(event) {

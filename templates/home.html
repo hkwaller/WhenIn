@@ -15,8 +15,14 @@
             
         </div>
         
+        
 
-        <content has-header="true">
+        <content has-header="true"
+                 on-refresh="reloadPage()"
+                 >
+            
+                <refresher></refresher>
+
             <google-map class="map" center="center" draggable="false" zoom="zoom" markers="markers" mark-click="true" style="height: 200px"></google-map>
             <div class="item item-avatar">
                    

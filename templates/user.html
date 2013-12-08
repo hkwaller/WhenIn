@@ -18,31 +18,31 @@
         <content has-header="true" class="text-center">
               <div class="list list-inset" ng-show="edit">
                   <label class="item item-input">
-                    <input type="text" placeholder="Username: {{ user.attributes.username }}">
+                    <input type="text" placeholder="Username: {{ user.attributes.username }}" readonly>
                 </label>
                 <label class="item item-input">
-                    <input type="text" placeholder="Name: {{ user.attributes.name }}">
+                    <input type="text" placeholder="Name: {{ user.attributes.name }}" readonly>
                 </label>
                 <label class="item item-input">
-                    <input type="text" placeholder="Email: {{ user.attributes.email }}">
+                    <input type="text" placeholder="Email: {{ user.attributes.email }}" readonly>
                 </label>
                 <label class="item item-input">
-                    <input type="password" placeholder="Password: sunshine?">
+                    <input type="password" placeholder="Password: sunshine?" readonly>
                 </label>      
             </div>
             
             <div class="list list-inset" ng-show="!edit">
                 <label class="item item-input">
-                    <input type="text" placeholder="{{ user.attributes.username }}" ng-model="profile.username">
+                    <input type="text" placeholder="Username: {{ user.attributes.username }}" ng-model="profile.username">
                 </label>
                 <label class="item item-input">
-                    <input type="text" placeholder="{{ user.attributes.name }}" ng-model="profile.name">
+                    <input type="text" placeholder="Name: {{ user.attributes.name }}" ng-model="profile.name">
                 </label>
                 <label class="item item-input">
-                    <input type="text" placeholder="{{ user.attributes.email }}" ng-model="profile.email">
+                    <input type="text" placeholder="Email: {{ user.attributes.email }}" ng-model="profile.email">
                 </label>
                 <label class="item item-input">
-                    <input type="password" placeholder="Password" ng-model="profile.password">
+                    <input type="password" placeholder="Password: sunshine?" ng-model="profile.password">
                 </label>  
                 <div class="text-center confirmed {{ confirmedProfile }}" ng-model="saved">Profile saved</div>
 
