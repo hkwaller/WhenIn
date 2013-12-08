@@ -21,8 +21,8 @@
 .confirmed {
     background: white;
     color: white;
-    font-size: 1.4em;
-    padding: 1em;
+    font-size: 1em;
+    padding: 0.2em;
 }
 
 .confirmedProfile {

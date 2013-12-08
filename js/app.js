@@ -260,7 +260,9 @@ whenIn.controller('HomeCtrl', function($scope, $location, $timeout, Modal, $http
                 $http.get($scope.urlinfo).then(function(res){
                 
                     $scope.findmeh = res.data;
-                    console.log($scope.findmeh.results[2].address_components[0].long_name);
+                    $scope.locality = $scope.findmeh.results[0].address_components[2].long_name;
+                    console.log($scope.findmeh.results[0].address_components[2].long_name);
+                    console.log($scope.findmeh);
                   
                 });
                 $scope.$apply();
@@ -348,7 +350,7 @@ whenIn.controller('ArchiveCtrl', function($scope, $location, $timeout) {
 ||  Bruker Controller
 */
 
-whenIn.controller('UserCtrl', function($scope, $location, $timeout) {
+whenIn.controller('UserCtrl', function($scope, $location, $timeout, $route) {
         
     $scope.toggleMenu = function() {
           $scope.sideMenuController.toggleLeft();
@@ -376,16 +378,19 @@ whenIn.controller('UserCtrl', function($scope, $location, $timeout) {
         query.equalTo("username", $scope.user.attributes.username);  
         query.find({
             success: function(results) {
-                results[0].set("password", $scope.profile.password);
-                results[0].set("username", $scope.profile.username);
-                results[0].set("email", $scope.profile.email);
-                results[0].set("name", $scope.profile.name);
+                results[0].set("password", profile.password);
+                results[0].set("username", profile.username);
+                results[0].set("email", profile.email);
+                results[0].set("name", profile.name);
                 results[0].save(null, {
                   success: function(results) {
+                    $scope.user = Parse.User.current();
                     $timeout(function() {
                         $scope.confirmedProfile = "confirmedProfile";
-                    }, 100);
-            
+                        $timeout(function() {
+                            $route.reload();
+                        }, 500);
+                    }, 500);
                 }
             });    
                 
